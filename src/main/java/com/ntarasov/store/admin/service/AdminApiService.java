@@ -33,7 +33,7 @@ public class AdminApiService {
     }
 
 //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
-    public AdminDoc create(AdminRequest request) throws AdminExistException {
+    public AdminDoc registration(AdminRequest request) throws AdminExistException {
         AdminDoc adminDoc = AdminMapping.getInstance().getRequest().convert(request);
         adminRepository.save(adminDoc);
         return adminDoc;
