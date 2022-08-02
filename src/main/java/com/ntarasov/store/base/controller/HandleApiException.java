@@ -1,6 +1,8 @@
 package com.ntarasov.store.base.controller;
 
 
+import com.ntarasov.store.auth.exceptions.AuthException;
+import com.ntarasov.store.auth.exceptions.NotAccessException;
 import com.ntarasov.store.base.api.response.ErrorResponse;
 import com.ntarasov.store.admin.exception.AdminExistException;
 import com.ntarasov.store.admin.exception.AdminNotExistException;
@@ -43,6 +45,16 @@ public class HandleApiException extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> exception(Exception ex, WebRequest webRequest) {
         return buildResponseEntity(ErrorResponse.of("Exception", HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> authException(AuthException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("AuthException", HttpStatus.UNAUTHORIZED));
+    }
+
+    @ExceptionHandler(NotAccessException.class)
+    public ResponseEntity<Object> notAccessException(NotAccessException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("NotAccessException", HttpStatus.FORBIDDEN));
     }
 
 }
