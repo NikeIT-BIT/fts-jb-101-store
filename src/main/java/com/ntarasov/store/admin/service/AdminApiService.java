@@ -34,8 +34,13 @@ public class AdminApiService {
 
 //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
     public AdminDoc registration(AdminRequest request) throws AdminExistException {
-        AdminDoc adminDoc = AdminMapping.getInstance().getRequest().convert(request);
-        adminRepository.save(adminDoc);
+        if (adminRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new AdminExistException();
+        }
+        AdminDoc adminDoc = new AdminDoc();
+        adminDoc.setEmail(request.getEmail());
+        adminDoc.setPassword(AdminDoc.hexPassword(request.getPassword()));
+        adminDoc = adminRepository.save(adminDoc);
         return adminDoc;
     }
 
