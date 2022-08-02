@@ -42,18 +42,6 @@ public class AdminApiController {
             ));
             }
 
-//<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
-    @PostMapping(AdminApiRoutes.ROOT)
-    @ApiOperation(value = "create", notes = "Admin this when you need create and new create admin")
-    @ApiResponses( value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 400, message = "Admin alreade exist")
-    })
-
-    public OkResponse<AdminResponse> create(@RequestBody AdminRequest request) throws AdminExistException {
-        return OkResponse.of(AdminMapping.getInstance().getResponse().convert(adminApiService.create(request)));
-    }
-
 //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
    @GetMapping(AdminApiRoutes.ROOT)
    @ApiOperation(value = "Search admin", notes = "Admin this when you need find admin by last name first or email")
