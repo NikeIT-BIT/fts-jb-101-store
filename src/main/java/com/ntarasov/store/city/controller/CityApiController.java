@@ -95,7 +95,7 @@ public class CityApiController {
            @ApiResponse(code = 200, message = "Success")
    })
 
-    public OkResponse<String> deleteUser(
+    public OkResponse<String> delete(
             @ApiParam(value = "User id") @PathVariable ObjectId id
    ){
         cityApiService.delete(id);

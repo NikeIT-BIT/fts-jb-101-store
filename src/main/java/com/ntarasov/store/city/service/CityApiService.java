@@ -67,6 +67,7 @@ public class CityApiService {
     public CityDoc update(CityRequest request) throws CityNotExistException {
         Optional<CityDoc> cityDocOptional = cityRepository.findById(request.getId());
         if (cityDocOptional.isEmpty()) throw new CityNotExistException();
+
         CityDoc cityDoc = CityMapping.getInstance().getRequest().convert(request);
         cityDoc.setId(request.getId());
         cityRepository.save(cityDoc);

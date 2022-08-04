@@ -83,7 +83,7 @@ public class AdminApiController {
            @ApiResponse(code = 200, message = "Success")
    })
 
-    public OkResponse<String> deleteUser(
+    public OkResponse<String> delete(
             @ApiParam(value = "User id") @PathVariable ObjectId id
    ){
         adminApiService.delete(id);
