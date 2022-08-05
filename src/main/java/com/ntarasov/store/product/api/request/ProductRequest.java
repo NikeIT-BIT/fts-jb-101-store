@@ -13,7 +13,7 @@ import org.bson.types.ObjectId;
 public class ProductRequest {
         private ObjectId id;
         private ObjectId categoryId;
-        private ObjectId photoId;
+        private ObjectId fileId;
         private ObjectId cityId;
         private String  name;
         private String  description;

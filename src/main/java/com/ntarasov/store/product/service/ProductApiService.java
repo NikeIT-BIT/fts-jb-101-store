@@ -3,12 +3,11 @@ package com.ntarasov.store.product.service;
 import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.product.api.request.ProductRequest;
+import com.ntarasov.store.product.mapping.ProductMapping;
+import com.ntarasov.store.product.exception.ProductExistException;
 import com.ntarasov.store.product.exception.ProductNotExistException;
 import com.ntarasov.store.product.model.ProductDoc;
 import com.ntarasov.store.product.repository.ProductRepository;
-import com.ntarasov.store.photo.exception.PhotoExistException;
-import com.ntarasov.store.product.mapping.ProductMapping;
-import com.ntarasov.store.product.exception.ProductExistException;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -24,22 +23,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 
 public class ProductApiService {
-    //<---------------------------------FINAL------------------------------------------------->
+//<---------------------------------FINAL------------------------------------------------->
     private final ProductRepository productRepository;
     private final MongoTemplate mongoTemplate;
 
-    //<---------------------------------ПОИСК ПО ID------------------------------------------------->
-    public Optional<ProductDoc> findById(ObjectId id) {
-        return productRepository.findById(id);
+//<---------------------------------ПОИСК ПО ID------------------------------------------------->
+    public Optional<ProductDoc> findById(ObjectId id){
+            return productRepository.findById(id);
     }
 
-    //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
-    public ProductDoc create(ProductRequest request) throws ProductExistException, PhotoExistException {
+//<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
+    public ProductDoc create(ProductRequest request) throws ProductExistException {
         if (productRepository.findByName(request.getName()).isPresent()) {
             throw new ProductExistException();
-        }
-        if (productRepository.findByPhotoId(request.getPhotoId()).isPresent()) {
-            throw new PhotoExistException();
         }
 
         ProductDoc productDoc = ProductMapping.getInstance().getRequest().convert(request);
@@ -47,12 +43,12 @@ public class ProductApiService {
         return productDoc;
     }
 
-    //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
-    public SearchResponse<ProductDoc> search(SearchRequest request) {
+//<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
+    public SearchResponse<ProductDoc> search(SearchRequest request){
 
         Criteria criteria = new Criteria();
 
-        if (request.getQuery() != null && !Objects.equals(request.getQuery(), "")) {
+        if(request.getQuery()!= null && !Objects.equals(request.getQuery(), "")){
             criteria = criteria.orOperator(
 //                    TODO: Add criteria
 //                    Criteria.where("firstName").regex(request.getQuery(),"i"),
@@ -66,10 +62,10 @@ public class ProductApiService {
         query.limit(request.getSize());
         query.skip(request.getSkip());
         List<ProductDoc> productDocs = mongoTemplate.find(query, ProductDoc.class);
-        return SearchResponse.of(productDocs, count);
+        return  SearchResponse.of(productDocs, count);
     }
 
-    //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
+//<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
     public ProductDoc update(ProductRequest request) throws ProductNotExistException {
         Optional<ProductDoc> productDocOptional = productRepository.findById(request.getId());
         if (productDocOptional.isEmpty()) throw new ProductNotExistException();
@@ -79,8 +75,8 @@ public class ProductApiService {
         return productDoc;
     }
 
-    //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id) {
+//<---------------------------------УДАЛЕНИЕ------------------------------------------------->
+    public void delete(ObjectId id){
         productRepository.deleteById(id);
     }
 }

@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
 
-import java.util.HashMap;
-
 @Getter
 @Setter
 @ApiModel(value = "CityRequest", description = "Model city request")
