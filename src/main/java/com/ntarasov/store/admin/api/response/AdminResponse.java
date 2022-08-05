@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @ApiModel(value = "AdminResponse", description = "Model adminResponse")
 
 public class AdminResponse {
-        protected String id;
-        protected String  email;
-        protected String  password;
+    protected String id;
+    protected String email;
+    protected String password;
 }
