@@ -50,7 +50,9 @@ public class CityApiController {
             @ApiResponse(code = 400, message = "City alreade exist")
     })
 
-    public OkResponse<CityResponse> create(@RequestBody CityRequest request) throws CityExistException {
+    public OkResponse<CityResponse> create(
+            @RequestBody CityRequest request
+    ) throws CityExistException {
         return OkResponse.of(CityMapping.getInstance().getResponse().convert(cityApiService.create(request)));
     }
 
