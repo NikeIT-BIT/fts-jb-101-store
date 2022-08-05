@@ -23,16 +23,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 
 public class AdminApiService {
-//<---------------------------------FINAL------------------------------------------------->
+    //<---------------------------------FINAL------------------------------------------------->
     private final AdminRepository adminRepository;
     private final MongoTemplate mongoTemplate;
 
-//<---------------------------------ПОИСК ПО ID------------------------------------------------->
-    public Optional<AdminDoc> findById(ObjectId id){
-            return adminRepository.findById(id);
+    //<---------------------------------ПОИСК ПО ID------------------------------------------------->
+    public Optional<AdminDoc> findById(ObjectId id) {
+        return adminRepository.findById(id);
     }
 
-//<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
+    //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
     public AdminDoc registration(AdminRequest request) throws AdminExistException {
         if (adminRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new AdminExistException();
@@ -44,12 +44,12 @@ public class AdminApiService {
         return adminDoc;
     }
 
-//<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
-    public SearchResponse<AdminDoc> search(SearchRequest request){
+    //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
+    public SearchResponse<AdminDoc> search(SearchRequest request) {
 
         Criteria criteria = new Criteria();
 
-        if(request.getQuery()!= null && !Objects.equals(request.getQuery(), "")){
+        if (request.getQuery() != null && !Objects.equals(request.getQuery(), "")) {
             criteria = criteria.orOperator(
 //                    TODO: Add criteria
 //                    Criteria.where("firstName").regex(request.getQuery(),"i"),
@@ -63,10 +63,10 @@ public class AdminApiService {
         query.limit(request.getSize());
         query.skip(request.getSkip());
         List<AdminDoc> adminDocs = mongoTemplate.find(query, AdminDoc.class);
-        return  SearchResponse.of(adminDocs, count);
+        return SearchResponse.of(adminDocs, count);
     }
 
-//<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
+    //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
     public AdminDoc update(AdminRequest request) throws AdminNotExistException {
         Optional<AdminDoc> adminDocOptional = adminRepository.findById(request.getId());
         if (adminDocOptional.isEmpty()) throw new AdminNotExistException();
@@ -76,8 +76,8 @@ public class AdminApiService {
         return adminDoc;
     }
 
-//<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id){
+    //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
+    public void delete(ObjectId id) {
         adminRepository.deleteById(id);
     }
 }

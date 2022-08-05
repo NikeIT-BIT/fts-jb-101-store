@@ -50,7 +50,7 @@ public class AdminMapping {
     }
 
 
-    public static class SearchMapping extends BaseMapping<SearchResponse<AdminDoc>, SearchResponse<AdminResponse>>{
+    public static class SearchMapping extends BaseMapping<SearchResponse<AdminDoc>, SearchResponse<AdminResponse>> {
         private final ResponseMapping responseMapping = new ResponseMapping();
 
         @Override

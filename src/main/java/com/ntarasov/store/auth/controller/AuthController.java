@@ -27,9 +27,10 @@ public class AuthController {
 
     private final AdminApiService adminApiService;
     private final AuthService authService;
+
     @PostMapping(AuthRoutes.REGISTRATION)
     @ApiOperation(value = "registr", notes = "Admin this when you need register and new create admin")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Admin alreade exist")
     })
@@ -40,7 +41,7 @@ public class AuthController {
 
     @PostMapping(AuthRoutes.AUTH)
     @ApiOperation(value = "authorization", notes = "Get token")
-    @ApiResponses( value = {
+    @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Admin not exist"),
             @ApiResponse(code = 401, message = "Bad password")
