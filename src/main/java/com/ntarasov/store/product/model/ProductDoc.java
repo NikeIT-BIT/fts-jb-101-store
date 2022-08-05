@@ -17,7 +17,7 @@ public class ProductDoc {
     @Id
         private ObjectId id;
         private ObjectId categoryId;
-        private ObjectId photoId;
+        private ObjectId fileId;
         private ObjectId cityId;
         private String  name;
         private String  description;

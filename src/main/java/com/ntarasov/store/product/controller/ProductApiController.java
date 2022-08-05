@@ -6,11 +6,10 @@ import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.product.api.request.ProductRequest;
 import com.ntarasov.store.product.api.response.ProductFullResponse;
 import com.ntarasov.store.product.api.response.ProductResponse;
-import com.ntarasov.store.product.exception.ProductNotExistException;
-import com.ntarasov.store.product.routers.ProductApiRoutes;
-import com.ntarasov.store.photo.exception.PhotoExistException;
 import com.ntarasov.store.product.exception.ProductExistException;
+import com.ntarasov.store.product.exception.ProductNotExistException;
 import com.ntarasov.store.product.mapping.ProductMapping;
+import com.ntarasov.store.product.routers.ProductApiRoutes;
 import com.ntarasov.store.product.service.ProductApiService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,7 @@ public class ProductApiController {
             @ApiResponse(code = 400, message = "Product alreade exist")
     })
 
-    public OkResponse<ProductResponse> create(@RequestBody ProductRequest request) throws ProductExistException, PhotoExistException {
+    public OkResponse<ProductResponse> create(@RequestBody ProductRequest request) throws ProductExistException {
         return OkResponse.of(ProductMapping.getInstance().getResponse().convert(productApiService.create(request)));
     }
 

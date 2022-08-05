@@ -7,7 +7,6 @@ import com.ntarasov.store.city.api.response.CityResponse;
 import com.ntarasov.store.city.model.CityDoc;
 import lombok.Getter;
 
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Getter
@@ -53,7 +52,7 @@ public class CityMapping {
     }
 
 
-    public static class SearchMapping extends BaseMapping<SearchResponse<CityDoc>, SearchResponse<CityResponse>> {
+    public static class SearchMapping extends BaseMapping<SearchResponse<CityDoc>, SearchResponse<CityResponse>>{
         private final ResponseMapping responseMapping = new ResponseMapping();
 
         @Override
