@@ -18,12 +18,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 
 public class HandleApiException extends ResponseEntityExceptionHandler {
-    private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse){
+    private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
         return new ResponseEntity<>(errorResponse, errorResponse.getHttpStatus());
     }
 
     @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    public ResponseEntity<Object> notFoundException(ChangeSetPersister.NotFoundException ex, WebRequest webRequest){
+    public ResponseEntity<Object> notFoundException(ChangeSetPersister.NotFoundException ex, WebRequest webRequest) {
         return buildResponseEntity(ErrorResponse.of("NotFoundExeption", HttpStatus.NOT_FOUND));
     }
 

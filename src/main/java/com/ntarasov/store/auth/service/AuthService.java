@@ -21,14 +21,15 @@ public class AuthService {
         AdminDoc adminDoc = adminRepository.findByEmail(email).orElseThrow(AdminNotExistException::new);
         return CustomAdminDetails.fromAdminEntityToCustomAdminDetails(adminDoc);
     }
+
     public String auth(AuthRequest authRequest) throws AdminNotExistException, AuthException {
         AdminDoc adminDoc = adminRepository.findByEmail(authRequest.getEmail()).orElseThrow(AdminNotExistException::new);
-        if(adminDoc.getPassword().equals(AdminDoc.hexPassword(authRequest.getPassword())) == false){
+        if (adminDoc.getPassword().equals(AdminDoc.hexPassword(authRequest.getPassword())) == false) {
             adminDoc.setFailLogin(adminDoc.getFailLogin() + 1);
             adminRepository.save(adminDoc);
             throw new AuthException();
         }
-        if(adminDoc.getFailLogin() > 0){
+        if (adminDoc.getFailLogin() > 0) {
             adminDoc.setFailLogin(0);
             adminRepository.save(adminDoc);
         }

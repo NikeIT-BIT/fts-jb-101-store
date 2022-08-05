@@ -12,11 +12,11 @@ public class CustomAdminDetails implements UserDetails {
     private String password;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
 
-    public static CustomAdminDetails fromAdminEntityToCustomAdminDetails(AdminDoc userDoc){
+    public static CustomAdminDetails fromAdminEntityToCustomAdminDetails(AdminDoc userDoc) {
         CustomAdminDetails c = new CustomAdminDetails();
         c.login = userDoc.getEmail();
         c.password = userDoc.getPassword();
-        return  c;
+        return c;
     }
 
     @Override
