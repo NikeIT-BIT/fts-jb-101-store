@@ -23,16 +23,16 @@ import java.util.Optional;
 @RequiredArgsConstructor
 
 public class CategoryApiService {
-//<---------------------------------FINAL------------------------------------------------->
+    //<---------------------------------FINAL------------------------------------------------->
     private final CategoryRepository categoryRepository;
     private final MongoTemplate mongoTemplate;
 
-//<---------------------------------ПОИСК ПО ID------------------------------------------------->
-    public Optional<CategoryDoc> findById(ObjectId id){
-            return categoryRepository.findById(id);
+    //<---------------------------------ПОИСК ПО ID------------------------------------------------->
+    public Optional<CategoryDoc> findById(ObjectId id) {
+        return categoryRepository.findById(id);
     }
 
-//<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
+    //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
     public CategoryDoc create(CategoryRequest request) throws CategoryExistException {
         if (categoryRepository.findByName(request.getName()).isPresent()) {
             throw new CategoryExistException();
@@ -43,26 +43,25 @@ public class CategoryApiService {
         return categoryDoc;
     }
 
-//<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
-    public SearchResponse<CategoryDoc> search(SearchRequest request){
+    //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
+    public SearchResponse<CategoryDoc> search(SearchRequest request) {
 
         Criteria criteria = new Criteria();
 
-        if(request.getQuery()!= null && !Objects.equals(request.getQuery(), "")){
+        if (request.getQuery() != null && Objects.equals(request.getQuery(), "") == false) {
             criteria = criteria.orOperator(
-                    Criteria.where("name").regex(request.getQuery(),"i")
+                    Criteria.where("name").regex(request.getQuery(), "i")
             );
         }
-
         Query query = new Query(criteria);
         Long count = mongoTemplate.count(query, CategoryDoc.class);
         query.limit(request.getSize());
         query.skip(request.getSkip());
         List<CategoryDoc> categoryDocs = mongoTemplate.find(query, CategoryDoc.class);
-        return  SearchResponse.of(categoryDocs, count);
+        return SearchResponse.of(categoryDocs, count);
     }
 
-//<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
+    //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
     public CategoryDoc update(CategoryRequest request) throws CategoryNotExistException {
         Optional<CategoryDoc> categoryDocOptional = categoryRepository.findById(request.getId());
         if (categoryDocOptional.isEmpty()) throw new CategoryNotExistException();
@@ -72,8 +71,8 @@ public class CategoryApiService {
         return categoryDoc;
     }
 
-//<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id){
+    //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
+    public void delete(ObjectId id) {
         categoryRepository.deleteById(id);
     }
 }
