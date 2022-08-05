@@ -51,10 +51,7 @@ public class AdminApiService {
 
         if (request.getQuery() != null && !Objects.equals(request.getQuery(), "")) {
             criteria = criteria.orOperator(
-//                    TODO: Add criteria
-//                    Criteria.where("firstName").regex(request.getQuery(),"i"),
-//                    Criteria.where("lastName").regex(request.getQuery(),"i"),
-//                    Criteria.where("email").regex(request.getQuery(),"i")
+                    Criteria.where("email").regex(request.getQuery(),"i")
             );
         }
 
