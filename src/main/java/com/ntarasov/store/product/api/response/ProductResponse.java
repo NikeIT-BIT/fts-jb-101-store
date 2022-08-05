@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 public class ProductResponse {
         protected String id;
         protected String categoryId;
-        protected String fileId;
+        protected String photoId;
         protected String cityId;
         protected String  name;
         protected String  description;
