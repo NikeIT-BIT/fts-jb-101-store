@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Api(value = "Admin API")
 public class AdminApiController {
-//<---------------------------------FINAL------------------------------------------------->
+    //<---------------------------------FINAL------------------------------------------------->
     private final AdminApiService adminApiService;
 
 
-//<---------------------------------ПОИСК ПО ID------------------------------------------------->
+    //<---------------------------------ПОИСК ПО ID------------------------------------------------->
     @GetMapping(AdminApiRoutes.BY_ID)
     @ApiOperation(value = "Find admin by id", notes = "Admin this when you need full info about")
     @ApiResponses(value = {
@@ -34,59 +34,59 @@ public class AdminApiController {
     })
 
     public OkResponse<AdminResponse> byId(
-    @ApiParam(value = "Admin id") @PathVariable ObjectId id
-            ) throws ChangeSetPersister.NotFoundException {
-            return OkResponse.of(AdminMapping.getInstance().getResponse().convert(
-            adminApiService.findById(id).orElseThrow(
-            ChangeSetPersister.NotFoundException::new)
-            ));
-            }
+            @ApiParam(value = "Admin id") @PathVariable ObjectId id
+    ) throws ChangeSetPersister.NotFoundException {
+        return OkResponse.of(AdminMapping.getInstance().getResponse().convert(
+                adminApiService.findById(id).orElseThrow(
+                        ChangeSetPersister.NotFoundException::new)
+        ));
+    }
 
-//<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
-   @GetMapping(AdminApiRoutes.ROOT)
-   @ApiOperation(value = "Search admin", notes = "Admin this when you need find admin by last name first or email")
-   @ApiResponses(value = {
-           @ApiResponse(code = 200, message = "Success")
-   })
+    //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
+    @GetMapping(AdminApiRoutes.ROOT)
+    @ApiOperation(value = "Search admin", notes = "Admin this when you need find admin by last name first or email")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success")
+    })
 
     public OkResponse<SearchResponse<AdminResponse>> search(
-           @ModelAttribute SearchRequest request
-           ){
+            @ModelAttribute SearchRequest request
+    ) {
         return OkResponse.of(AdminMapping.getInstance().getSearch().convert(
                 adminApiService.search(request)
         ));
 
-   }
+    }
 
-//<---------------------------------ИЗМЕНЕНИЕ ПО ID------------------------------------------------->
-   @PutMapping(AdminApiRoutes.BY_ID)
-   @ApiOperation(value = "Update admin", notes = "Admin this when you need update admin info")
-   @ApiResponses(value = {
-           @ApiResponse(code = 200, message = "Success"),
-           @ApiResponse(code = 400, message = "Admin ID invalid")
-   })
+    //<---------------------------------ИЗМЕНЕНИЕ ПО ID------------------------------------------------->
+    @PutMapping(AdminApiRoutes.BY_ID)
+    @ApiOperation(value = "Update admin", notes = "Admin this when you need update admin info")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Admin ID invalid")
+    })
 
     public OkResponse<AdminResponse> admin(
             @ApiParam(value = "Admin id") @PathVariable String id,
             @RequestBody AdminRequest adminRequest
-   ) throws AdminNotExistException {
+    ) throws AdminNotExistException {
         return OkResponse.of(AdminMapping.getInstance().getResponse().convert(
                 adminApiService.update(adminRequest)
         ));
 
-   }
+    }
 
-//<---------------------------------УДАЛЕНИЕ ПО ID------------------------------------------------->
-   @DeleteMapping(AdminApiRoutes.BY_ID)
-   @ApiOperation(value = "Delete admin", notes = "User this when you need delete admin")
-   @ApiResponses(value = {
-           @ApiResponse(code = 200, message = "Success")
-   })
+    //<---------------------------------УДАЛЕНИЕ ПО ID------------------------------------------------->
+    @DeleteMapping(AdminApiRoutes.BY_ID)
+    @ApiOperation(value = "Delete admin", notes = "User this when you need delete admin")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success")
+    })
 
     public OkResponse<String> delete(
             @ApiParam(value = "User id") @PathVariable ObjectId id
-   ){
+    ) {
         adminApiService.delete(id);
         return OkResponse.of(HttpStatus.OK.toString());
-   }
+    }
 }

@@ -10,7 +10,7 @@ import org.bson.types.ObjectId;
 @ApiModel(value = "AdminRequest", description = "Model admin request")
 
 public class AdminRequest {
-        private ObjectId id;
-        private String  email;
-        private String  password;
+    private ObjectId id;
+    private String email;
+    private String password;
 }
