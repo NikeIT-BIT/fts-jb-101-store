@@ -3,6 +3,7 @@ package com.ntarasov.store.street.controller;
 import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
+import com.ntarasov.store.city.exception.CityNotExistException;
 import com.ntarasov.store.street.api.request.StreetRequest;
 import com.ntarasov.store.street.api.response.StreetResponse;
 import com.ntarasov.store.street.exception.StreetExistException;
@@ -50,7 +51,7 @@ public class StreetApiController {
             @ApiResponse(code = 400, message = "Street alreade exist")
     })
 
-    public OkResponse<StreetResponse> create(@RequestBody StreetRequest request) throws StreetExistException {
+    public OkResponse<StreetResponse> create(@RequestBody StreetRequest request) throws StreetExistException, CityNotExistException {
         return OkResponse.of(StreetMapping.getInstance().getResponse().convert(streetApiService.create(request)));
     }
 
