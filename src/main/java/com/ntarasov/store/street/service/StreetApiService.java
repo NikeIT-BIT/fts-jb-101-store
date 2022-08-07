@@ -25,37 +25,37 @@ import java.util.Optional;
 @RequiredArgsConstructor
 
 public class StreetApiService {
-//<---------------------------------FINAL------------------------------------------------->
+    //<---------------------------------FINAL------------------------------------------------->
     private final StreetRepository streetRepository;
     private final MongoTemplate mongoTemplate;
     private final CityRepository cityRepository;
 
-//<---------------------------------ПОИСК ПО ID------------------------------------------------->
-    public Optional<StreetDoc> findById(ObjectId id){
-            return streetRepository.findById(id);
+    //<---------------------------------ПОИСК ПО ID------------------------------------------------->
+    public Optional<StreetDoc> findById(ObjectId id) {
+        return streetRepository.findById(id);
     }
 
-//<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
+    //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
     public StreetDoc create(StreetRequest request) throws StreetExistException, CityNotExistException {
         if (streetRepository.findByName(request.getName()).isPresent()) {
             throw new StreetExistException();
         }
-        if(cityRepository.findById(request.getCityId()).isEmpty()) throw new CityNotExistException();
+        if (cityRepository.findById(request.getCityId()).isEmpty()) throw new CityNotExistException();
 
         StreetDoc streetDoc = StreetMapping.getInstance().getRequest().convert(request);
         streetRepository.save(streetDoc);
         return streetDoc;
     }
 
-//<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
-    public SearchResponse<StreetDoc> search(SearchRequest request){
+    //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
+    public SearchResponse<StreetDoc> search(SearchRequest request) {
 
         Criteria criteria = new Criteria();
 
-        if(request.getQuery()!= null && !Objects.equals(request.getQuery(), "")){
+        if (request.getQuery() != null && !Objects.equals(request.getQuery(), "")) {
             criteria = criteria.orOperator(
 
-                    Criteria.where("name").regex(request.getQuery(),"i")
+                    Criteria.where("name").regex(request.getQuery(), "i")
             );
         }
 
@@ -64,10 +64,10 @@ public class StreetApiService {
         query.limit(request.getSize());
         query.skip(request.getSkip());
         List<StreetDoc> streetDocs = mongoTemplate.find(query, StreetDoc.class);
-        return  SearchResponse.of(streetDocs, count);
+        return SearchResponse.of(streetDocs, count);
     }
 
-//<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
+    //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
     public StreetDoc update(StreetRequest request) throws StreetNotExistException {
         Optional<StreetDoc> streetDocOptional = streetRepository.findById(request.getId());
         if (streetDocOptional.isEmpty()) throw new StreetNotExistException();
@@ -77,8 +77,8 @@ public class StreetApiService {
         return streetDoc;
     }
 
-//<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id){
+    //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
+    public void delete(ObjectId id) {
         streetRepository.deleteById(id);
     }
 }
