@@ -1,7 +1,6 @@
 package com.ntarasov.store.gues.model;
 
-public class PaymentMethod {
-    public enum Status{
+public enum PaymentMethod {
         CART, CASH
-    }
+
 }

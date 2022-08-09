@@ -9,6 +9,14 @@ import com.ntarasov.store.city.exception.CityExistException;
 import com.ntarasov.store.city.exception.CityNotExistException;
 import com.ntarasov.store.city.model.CityDoc;
 import com.ntarasov.store.city.repository.CityRepository;
+import com.ntarasov.store.photo.api.request.PhotoSearchRequest;
+import com.ntarasov.store.photo.model.PhotoDoc;
+import com.ntarasov.store.price.api.request.PriceSearchRequest;
+import com.ntarasov.store.price.model.PriceDoc;
+import com.ntarasov.store.price.service.PriceApiService;
+import com.ntarasov.store.street.api.request.StreetSearchRequest;
+import com.ntarasov.store.street.model.StreetDoc;
+import com.ntarasov.store.street.service.StreetApiService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -27,6 +35,8 @@ public class CityApiService {
 //<---------------------------------FINAL------------------------------------------------->
     private final CityRepository cityRepository;
     private final MongoTemplate mongoTemplate;
+    private final PriceApiService priceApiService;
+    private final StreetApiService streetApiService;
 
 //<---------------------------------ПОИСК ПО ID------------------------------------------------->
     public Optional<CityDoc> findById(ObjectId id){
@@ -76,6 +86,16 @@ public class CityApiService {
 
 //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
     public void delete(ObjectId id){
+        List <PriceDoc> priceDocs = priceApiService.search(PriceSearchRequest.builder()
+                .cityId(id)
+                .size(100)
+                .build()).getList();
+        List <StreetDoc> streetDocs = streetApiService.search(StreetSearchRequest.builder()
+                .cityId(id)
+                .size(10000)
+                .build()).getList();
+        for(PriceDoc priceDoc : priceDocs) priceApiService.delete(priceDoc.getId());
+        for(StreetDoc streetDoc : streetDocs) streetApiService.delete(streetDoc.getId());
         cityRepository.deleteById(id);
     }
 }

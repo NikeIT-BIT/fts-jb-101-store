@@ -13,4 +13,5 @@ public class PhotoRequest {
         private ObjectId id;
         private String  name;
         private String contentType;
+        private ObjectId productId;
 }
