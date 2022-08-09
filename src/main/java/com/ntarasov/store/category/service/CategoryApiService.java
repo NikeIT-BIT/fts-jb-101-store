@@ -1,5 +1,7 @@
 package com.ntarasov.store.category.service;
 
+import com.ntarasov.store.photo.exception.PhotoNotExistException;
+import com.ntarasov.store.product.api.request.ProductSearchRequest;
 import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.category.api.request.CategoryRequest;
@@ -8,6 +10,8 @@ import com.ntarasov.store.category.exception.CategoryExistException;
 import com.ntarasov.store.category.exception.CategoryNotExistException;
 import com.ntarasov.store.category.model.CategoryDoc;
 import com.ntarasov.store.category.repository.CategoryRepository;
+import com.ntarasov.store.product.model.ProductDoc;
+import com.ntarasov.store.product.service.ProductApiService;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -26,6 +30,7 @@ public class CategoryApiService {
     //<---------------------------------FINAL------------------------------------------------->
     private final CategoryRepository categoryRepository;
     private final MongoTemplate mongoTemplate;
+    private final ProductApiService productApiService;
 
     //<---------------------------------ПОИСК ПО ID------------------------------------------------->
     public Optional<CategoryDoc> findById(ObjectId id) {
@@ -72,7 +77,13 @@ public class CategoryApiService {
     }
 
     //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id) {
+    public void delete(ObjectId id) throws PhotoNotExistException {
+        List<ProductDoc> productDocs = productApiService.search(ProductSearchRequest.builder()
+                .categoryId(id)
+                .size(1000)
+                .build()).getList();
+
+        for(ProductDoc productDoc : productDocs) productApiService.delete(productDoc.getId());
         categoryRepository.deleteById(id);
     }
 }

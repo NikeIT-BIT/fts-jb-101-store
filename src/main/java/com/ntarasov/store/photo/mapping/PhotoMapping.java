@@ -21,6 +21,7 @@ public class PhotoMapping {
                     .id(photoRequest.getId())
                     .name(photoRequest.getName())
                     .contentType(photoRequest.getContentType())
+                    .productId(photoRequest.getProductId())
                     .build();
         }
 
@@ -40,6 +41,7 @@ public class PhotoMapping {
                     .id(photoDoc.getId().toString())
                     .name(photoDoc.getName())
                     .contentType(photoDoc.getContentType())
+                    .productId(photoDoc.getProductId().toString())
                     .build();
         }
 

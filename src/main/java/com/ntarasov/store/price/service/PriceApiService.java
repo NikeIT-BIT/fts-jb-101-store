@@ -5,6 +5,7 @@ import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.city.exception.CityNotExistException;
 import com.ntarasov.store.city.repository.CityRepository;
 import com.ntarasov.store.price.api.request.PriceRequest;
+import com.ntarasov.store.price.api.request.PriceSearchRequest;
 import com.ntarasov.store.price.mapping.PriceMapping;
 import com.ntarasov.store.price.exception.PriceExistException;
 import com.ntarasov.store.price.exception.PriceNotExistException;
@@ -53,7 +54,7 @@ public class PriceApiService {
     }
 
 //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
-    public SearchResponse<PriceDoc> search(SearchRequest request){
+    public SearchResponse<PriceDoc> search(PriceSearchRequest request){
 
         Criteria criteria = new Criteria();
 

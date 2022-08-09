@@ -21,6 +21,6 @@ public class GuesDoc {
         private String  time;
         private ObjectId cartId;
         private Address address = new Address();
-        private PaymentMethod paymentMethod = new PaymentMethod();
+        private PaymentMethod paymentMethod;
 
 }

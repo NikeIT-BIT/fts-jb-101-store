@@ -34,7 +34,7 @@ public class PhotoApiController {
 
     public OkResponse<PhotoResponse> byId(
     @ApiParam(value = "Photo id") @PathVariable ObjectId id
-            ) throws ChangeSetPersister.NotFoundException {
+            ) throws ChangeSetPersister.NotFoundException, PhotoNotExistException {
             return OkResponse.of(PhotoMapping.getInstance().getResponse().convert(
             photoApiService.findById(id).orElseThrow(
             ChangeSetPersister.NotFoundException::new)
@@ -85,7 +85,7 @@ public class PhotoApiController {
 
     public OkResponse<String> delete(
             @ApiParam(value = "User id") @PathVariable ObjectId id
-   ){
+   ) throws PhotoNotExistException {
         photoApiService.delete(id);
         return OkResponse.of(HttpStatus.OK.toString());
    }

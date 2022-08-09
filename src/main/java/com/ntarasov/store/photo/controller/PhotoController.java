@@ -2,6 +2,7 @@ package com.ntarasov.store.photo.controller;
 
 import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.photo.api.response.PhotoResponse;
+import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.photo.mapping.PhotoMapping;
 import com.ntarasov.store.photo.model.PhotoDoc;
 import com.ntarasov.store.photo.routers.PhotoApiRoutes;
@@ -31,7 +32,7 @@ public class PhotoController {
 
     public  void byId(
     @ApiParam(value = "Photo id") @PathVariable ObjectId id, HttpServletResponse response
-            ) throws ChangeSetPersister.NotFoundException, IOException {
+            ) throws ChangeSetPersister.NotFoundException, IOException, PhotoNotExistException {
         PhotoDoc photoDoc = photoApiService.findById(id).orElseThrow();
         response.addHeader("Content-Type", "image/png");
         response.addHeader("Content-Disposition", "inline; filename=\""+photoDoc.getName()+"\"");
