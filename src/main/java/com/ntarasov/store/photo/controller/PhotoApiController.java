@@ -4,6 +4,7 @@ import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.photo.api.request.PhotoRequest;
+import com.ntarasov.store.photo.api.request.PhotoSearchRequest;
 import com.ntarasov.store.photo.api.response.PhotoResponse;
 import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.photo.mapping.PhotoMapping;
@@ -50,7 +51,7 @@ public class PhotoApiController {
    })
 
     public OkResponse<SearchResponse<PhotoResponse>> search(
-           @ModelAttribute SearchRequest request
+           @ModelAttribute PhotoSearchRequest request
            ){
         return OkResponse.of(PhotoMapping.getInstance().getSearch().convert(
                 photoApiService.search(request)

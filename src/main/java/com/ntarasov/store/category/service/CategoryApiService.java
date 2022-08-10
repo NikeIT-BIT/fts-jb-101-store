@@ -58,6 +58,7 @@ public class CategoryApiService {
                     Criteria.where("name").regex(request.getQuery(), "i")
             );
         }
+
         Query query = new Query(criteria);
         Long count = mongoTemplate.count(query, CategoryDoc.class);
         query.limit(request.getSize());
