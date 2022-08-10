@@ -61,7 +61,9 @@ public class CityApiService {
 
         if(request.getQuery()!= null && Objects.equals(request.getQuery(), "") == false){
             criteria = criteria.orOperator(
-                    Criteria.where("name").regex(request.getQuery(),"i")
+                    Criteria.where("name").regex(request.getQuery(),"i"),
+                    Criteria.where("minTimeDelivery").regex(request.getQuery(),"i"),
+                    Criteria.where("priceDelivery").regex(request.getQuery(),"i")
             );
         }
 

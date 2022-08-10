@@ -3,7 +3,9 @@ package com.ntarasov.store.product.controller;
 import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
+import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.product.api.request.ProductRequest;
+import com.ntarasov.store.product.api.request.ProductSearchRequest;
 import com.ntarasov.store.product.api.response.ProductFullResponse;
 import com.ntarasov.store.product.api.response.ProductResponse;
 import com.ntarasov.store.product.exception.ProductNotExistException;
@@ -64,7 +66,7 @@ public class ProductApiController {
     })
 
     public OkResponse<SearchResponse<ProductResponse>> search(
-            @ModelAttribute SearchRequest request
+            @ModelAttribute ProductSearchRequest request
     ) {
         return OkResponse.of(ProductMapping.getInstance().getSearch().convert(
                 productApiService.search(request)
@@ -99,7 +101,7 @@ public class ProductApiController {
 
     public OkResponse<String> deleteUser(
             @ApiParam(value = "User id") @PathVariable ObjectId id
-    ) {
+    ) throws PhotoNotExistException {
         productApiService.delete(id);
         return OkResponse.of(HttpStatus.OK.toString());
     }

@@ -19,7 +19,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -56,13 +58,18 @@ public class PriceApiService {
 //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
     public SearchResponse<PriceDoc> search(PriceSearchRequest request){
 
-        Criteria criteria = new Criteria();
+        List<Criteria> list = new ArrayList<>();
+        if(request.getProductId() != null)
+            list.add(Criteria.where("productId").is(request.getProductId()));
+        if(request.getCityId() != null)
+            list.add(Criteria.where("cityId").is(request.getCityId()));
+        if(StringUtils.hasText(request.getQuery()))
+            list.add(Criteria.where("price").regex(request.getQuery(), "i"));
 
-        if(request.getQuery()!= null && !Objects.equals(request.getQuery(), "")){
-            criteria = criteria.orOperator(
-                    Criteria.where("price").regex(request.getQuery(),"i")
-            );
-        }
+        Criteria criteria = list.isEmpty()?
+                new Criteria()
+                :
+                new Criteria().andOperator(list.toArray(Criteria[]::new));
 
         Query query = new Query(criteria);
         Long count = mongoTemplate.count(query, PriceDoc.class);

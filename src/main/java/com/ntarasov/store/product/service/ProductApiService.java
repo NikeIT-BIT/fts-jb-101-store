@@ -23,7 +23,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -55,14 +57,16 @@ public class ProductApiService {
     //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
     public SearchResponse<ProductDoc> search(ProductSearchRequest request) {
 
-        Criteria criteria = new Criteria(); // Добавь сюда критерию по категории
+        List<Criteria> list = new ArrayList<>();
+        if(request.getCategoryId() != null)
+            list.add(Criteria.where("categoryId").is(request.getCategoryId()));
+        if(StringUtils.hasText(request.getQuery()))
+            list.add(Criteria.where("price").regex(request.getQuery(), "i"));
 
-        if (request.getQuery() != null && !Objects.equals(request.getQuery(), "")) {
-            criteria = criteria.orOperator(
-                    Criteria.where("name").regex(request.getQuery(), "i"),
-                    Criteria.where("categoryId").regex(request.getQuery(), "i")
-            );
-        }
+        Criteria criteria = list.isEmpty()?
+                new Criteria()
+                :
+                new Criteria().andOperator(list.toArray(Criteria[]::new));
 
         Query query = new Query(criteria);
         Long count = mongoTemplate.count(query, ProductDoc.class);
