@@ -82,6 +82,9 @@ public class CityApiService {
 
         CityDoc cityDoc = CityMapping.getInstance().getRequest().convert(request);
         cityDoc.setId(request.getId());
+        cityDoc.setName(request.getName());
+        cityDoc.setMinTimeDelivery(request.getMinTimeDelivery());
+        cityDoc.setPriceDelivery(request.getPriceDelivery());
         cityRepository.save(cityDoc);
         return cityDoc;
     }

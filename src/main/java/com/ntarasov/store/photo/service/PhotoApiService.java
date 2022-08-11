@@ -1,13 +1,12 @@
 package com.ntarasov.store.photo.service;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.client.gridfs.model.GridFSFile;
-import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.photo.api.request.PhotoRequest;
 import com.ntarasov.store.photo.api.request.PhotoSearchRequest;
+import com.ntarasov.store.photo.api.request.PhotoUpdateRequest;
 import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.photo.mapping.PhotoMapping;
 import com.ntarasov.store.photo.model.PhotoDoc;
@@ -21,10 +20,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class PhotoApiService {
     private final GridFsOperations gridFsOperations;
 
     //<---------------------------------ПОИСК ПО ID------------------------------------------------->
-    public Optional<PhotoDoc> findById(ObjectId id) throws PhotoNotExistException {
+    public Optional<PhotoDoc> findById(ObjectId id) {
         return photoRepository.findById(id);
     }
 
@@ -76,13 +77,16 @@ public class PhotoApiService {
     //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->
     public SearchResponse<PhotoDoc> search(PhotoSearchRequest request) {
 
-        Criteria criteria = new Criteria();
+        List<Criteria> list = new ArrayList<>();
+        if(request.getProductId() != null)
+            list.add(Criteria.where("productId").is(request.getProductId()));
+        if(StringUtils.hasText(request.getQuery()))
+            list.add(Criteria.where("name").regex(request.getQuery(), "i"));
 
-        if (request.getQuery() != null && !Objects.equals(request.getQuery(), "")) {
-            criteria = criteria.orOperator(
-                    Criteria.where("name").regex(request.getQuery(), "i")
-            );
-        }
+        Criteria criteria = list.isEmpty()?
+                new Criteria()
+                :
+                new Criteria().andOperator(list.toArray(Criteria[]::new));
 
         Query query = new Query(criteria);
         Long count = mongoTemplate.count(query, PhotoDoc.class);
@@ -93,22 +97,19 @@ public class PhotoApiService {
     }
 
     //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
-    public PhotoDoc update(PhotoRequest request) throws PhotoNotExistException {
+    public PhotoDoc update(PhotoUpdateRequest request) throws PhotoNotExistException {
         Optional<PhotoDoc> photoDocOptional = photoRepository.findById(request.getId());
         if (photoDocOptional.isEmpty()) throw new PhotoNotExistException();
 
-        PhotoDoc oldDoc = photoDocOptional.get();
-
-        PhotoDoc photoDoc = PhotoMapping.getInstance().getRequest().convert(request);
-        photoDoc.setName(request.getName());
+        PhotoDoc photoDoc = PhotoMapping.getInstance().getUpdateRequest().convert(request);
         photoDoc.setId(request.getId());
-        photoDoc.setContentType(oldDoc.getContentType());
+        photoDoc.setName(request.getName());
         photoRepository.save(photoDoc);
         return photoDoc;
     }
 
     //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id) throws PhotoNotExistException {
+    public void delete(ObjectId id) {
         gridFsTemplate.delete(new Query(Criteria.where("_id").is(id)));
         photoRepository.deleteById(id);
     }

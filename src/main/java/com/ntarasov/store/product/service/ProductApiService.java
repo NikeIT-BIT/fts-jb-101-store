@@ -61,7 +61,7 @@ public class ProductApiService {
         if(request.getCategoryId() != null)
             list.add(Criteria.where("categoryId").is(request.getCategoryId()));
         if(StringUtils.hasText(request.getQuery()))
-            list.add(Criteria.where("price").regex(request.getQuery(), "i"));
+            list.add(Criteria.where("name").regex(request.getQuery(), "i"));
 
         Criteria criteria = list.isEmpty()?
                 new Criteria()
@@ -79,12 +79,13 @@ public class ProductApiService {
     //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
     public ProductDoc update(ProductRequest request) throws ProductNotExistException {
         Optional<ProductDoc> productDocOptional = productRepository.findById(request.getId());
-
-        ProductDoc oldDoc = productDocOptional.get();
-
         if (productDocOptional.isEmpty()) throw new ProductNotExistException();
         ProductDoc productDoc = ProductMapping.getInstance().getRequest().convert(request);
-        productDoc.setId(oldDoc.getId());
+        productDoc.setId(request.getId());
+        productDoc.setName(request.getName());
+        productDoc.setCategoryId(request.getCategoryId());
+        productDoc.setDescription(request.getDescription());
+        productDoc.setNutritionFacts(request.getNutritionFacts());
         productRepository.save(productDoc);
         return productDoc;
     }

@@ -6,6 +6,7 @@ import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.city.exception.CityNotExistException;
 import com.ntarasov.store.price.api.request.PriceRequest;
 import com.ntarasov.store.price.api.request.PriceSearchRequest;
+import com.ntarasov.store.price.api.request.PriceUpdateRequest;
 import com.ntarasov.store.price.api.response.PriceResponse;
 import com.ntarasov.store.price.exception.PriceExistException;
 import com.ntarasov.store.price.exception.PriceNotExistException;
@@ -83,7 +84,7 @@ public class PriceApiController {
 
     public OkResponse<PriceResponse> price(
             @ApiParam(value = "Price id") @PathVariable String id,
-            @RequestBody PriceRequest priceRequest
+            @RequestBody PriceUpdateRequest priceRequest
    ) throws PriceNotExistException {
         return OkResponse.of(PriceMapping.getInstance().getResponse().convert(
                 priceApiService.update(priceRequest)

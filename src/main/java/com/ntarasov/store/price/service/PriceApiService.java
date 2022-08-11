@@ -4,8 +4,10 @@ import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.city.exception.CityNotExistException;
 import com.ntarasov.store.city.repository.CityRepository;
+import com.ntarasov.store.photo.model.PhotoDoc;
 import com.ntarasov.store.price.api.request.PriceRequest;
 import com.ntarasov.store.price.api.request.PriceSearchRequest;
+import com.ntarasov.store.price.api.request.PriceUpdateRequest;
 import com.ntarasov.store.price.mapping.PriceMapping;
 import com.ntarasov.store.price.exception.PriceExistException;
 import com.ntarasov.store.price.exception.PriceNotExistException;
@@ -80,11 +82,12 @@ public class PriceApiService {
     }
 
 //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
-    public PriceDoc update(PriceRequest request) throws PriceNotExistException {
+    public PriceDoc update(PriceUpdateRequest request) throws PriceNotExistException {
         Optional<PriceDoc> priceDocOptional = priceRepository.findById(request.getId());
         if (priceDocOptional.isEmpty()) throw new PriceNotExistException();
-        PriceDoc priceDoc = PriceMapping.getInstance().getRequest().convert(request);
+        PriceDoc priceDoc = PriceMapping.getInstance().getRequestUpdate().convert(request);
         priceDoc.setId(request.getId());
+        priceDoc.setPrice(request.getPrice());
         priceRepository.save(priceDoc);
         return priceDoc;
     }

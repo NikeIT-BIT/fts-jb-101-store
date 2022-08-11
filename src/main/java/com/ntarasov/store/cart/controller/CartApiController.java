@@ -4,6 +4,7 @@ import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.cart.api.request.CartRequest;
+import com.ntarasov.store.cart.api.request.CartUpdateRequest;
 import com.ntarasov.store.cart.api.response.CartResponse;
 import com.ntarasov.store.cart.exception.CartExistException;
 import com.ntarasov.store.cart.exception.CartNotExistException;
@@ -80,7 +81,7 @@ public class CartApiController {
 
     public OkResponse<CartResponse> cart(
             @ApiParam(value = "Cart id") @PathVariable String id,
-            @RequestBody CartRequest cartRequest
+            @RequestBody CartUpdateRequest cartRequest
    ) throws CartNotExistException {
         return OkResponse.of(CartMapping.getInstance().getResponse().convert(
                 cartApiService.update(cartRequest)
