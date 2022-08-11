@@ -3,6 +3,7 @@ package com.ntarasov.store.price.mapping;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.base.mapping.BaseMapping;
 import com.ntarasov.store.price.api.request.PriceRequest;
+import com.ntarasov.store.price.api.request.PriceUpdateRequest;
 import com.ntarasov.store.price.api.response.PriceResponse;
 import com.ntarasov.store.price.model.PriceDoc;
 import lombok.Getter;
@@ -28,6 +29,23 @@ public class PriceMapping {
 
         @Override
         public PriceRequest unMapping(PriceDoc priceDoc) {
+            throw new RuntimeException("dont use this");
+        }
+    }
+
+    public static class RequestUpdateMapping extends BaseMapping<PriceUpdateRequest, PriceDoc> {
+
+        @Override
+        public PriceDoc convert(PriceUpdateRequest request) {
+            return PriceDoc.builder()
+                    .id(request.getId())
+                    .price(request.getPrice())
+                    .build();
+        }
+
+
+        @Override
+        public PriceUpdateRequest unMapping(PriceDoc priceDoc) {
             throw new RuntimeException("dont use this");
         }
     }
@@ -73,6 +91,7 @@ public class PriceMapping {
     private final RequestMapping request = new RequestMapping();
     private final ResponseMapping response = new ResponseMapping();
     private final SearchMapping search = new SearchMapping();
+    private final RequestUpdateMapping requestUpdate = new RequestUpdateMapping();
 
 
     public static PriceMapping getInstance() {

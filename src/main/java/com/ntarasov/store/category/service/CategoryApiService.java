@@ -73,6 +73,7 @@ public class CategoryApiService {
         if (categoryDocOptional.isEmpty()) throw new CategoryNotExistException();
         CategoryDoc categoryDoc = CategoryMapping.getInstance().getRequest().convert(request);
         categoryDoc.setId(request.getId());
+        categoryDoc.setName(request.getName());
         categoryRepository.save(categoryDoc);
         return categoryDoc;
     }

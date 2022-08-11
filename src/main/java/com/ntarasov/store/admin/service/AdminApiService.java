@@ -29,7 +29,6 @@ public class AdminApiService {
 
     //<---------------------------------ПОИСК ПО ID------------------------------------------------->
     public Optional<AdminDoc> findById(ObjectId id) throws AdminNotExistException {
-        if(adminRepository.findById(id).isEmpty()) throw new AdminNotExistException();
         return adminRepository.findById(id);
     }
 
@@ -77,7 +76,6 @@ public class AdminApiService {
 
     //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
     public void delete(ObjectId id) throws AdminNotExistException {
-        if(adminRepository.findById(id).isEmpty()) throw new AdminNotExistException();
         adminRepository.deleteById(id);
     }
 }

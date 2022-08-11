@@ -5,6 +5,7 @@ import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.photo.api.request.PhotoRequest;
 import com.ntarasov.store.photo.api.request.PhotoSearchRequest;
+import com.ntarasov.store.photo.api.request.PhotoUpdateRequest;
 import com.ntarasov.store.photo.api.response.PhotoResponse;
 import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.photo.mapping.PhotoMapping;
@@ -69,7 +70,7 @@ public class PhotoApiController {
 
     public OkResponse<PhotoResponse> photo(
             @ApiParam(value = "Photo id") @PathVariable String id,
-            @RequestBody PhotoRequest photoRequest
+            @RequestBody PhotoUpdateRequest photoRequest
    ) throws PhotoNotExistException {
         return OkResponse.of(PhotoMapping.getInstance().getResponse().convert(
                 photoApiService.update(photoRequest)

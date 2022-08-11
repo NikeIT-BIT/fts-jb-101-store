@@ -3,6 +3,7 @@ package com.ntarasov.store.photo.mapping;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.base.mapping.BaseMapping;
 import com.ntarasov.store.photo.api.request.PhotoRequest;
+import com.ntarasov.store.photo.api.request.PhotoUpdateRequest;
 import com.ntarasov.store.photo.api.response.PhotoResponse;
 import com.ntarasov.store.photo.model.PhotoDoc;
 import lombok.Getter;
@@ -28,6 +29,23 @@ public class PhotoMapping {
 
         @Override
         public PhotoRequest unMapping(PhotoDoc photoDoc) {
+            throw new RuntimeException("dont use this");
+        }
+    }
+
+    public static class RequestUpdateMapping extends BaseMapping<PhotoUpdateRequest, PhotoDoc> {
+
+        @Override
+        public PhotoDoc convert(PhotoUpdateRequest photoRequest) {
+            return PhotoDoc.builder()
+                    .id(photoRequest.getId())
+                    .name(photoRequest.getName())
+                    .build();
+        }
+
+
+        @Override
+        public PhotoUpdateRequest unMapping(PhotoDoc photoDoc) {
             throw new RuntimeException("dont use this");
         }
     }
@@ -73,6 +91,7 @@ public class PhotoMapping {
     private final RequestMapping request = new RequestMapping();
     private final ResponseMapping response = new ResponseMapping();
     private final SearchMapping search = new SearchMapping();
+    private final RequestUpdateMapping updateRequest = new RequestUpdateMapping();
 
 
     public static PhotoMapping getInstance() {
