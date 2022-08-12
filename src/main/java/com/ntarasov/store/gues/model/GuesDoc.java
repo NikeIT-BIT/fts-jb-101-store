@@ -1,4 +1,4 @@
-package com.ntarasov.store.product.model;
+package com.ntarasov.store.gues.model;
 
 import lombok.*;
 import org.bson.types.ObjectId;
@@ -13,12 +13,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 
-public class ProductDoc {
+public class GuesDoc {
     @Id
         private ObjectId id;
-        private ObjectId categoryId;
-        private ObjectId cityId;
         private String  name;
-        private String  description;
-        private NutritionFacts  nutritionFacts = new NutritionFacts();
+        private String  phone;
+        private String  time;
+        private ObjectId cartId;
+        private Address address = new Address();
+        private PaymentMethod paymentMethod;
+
 }

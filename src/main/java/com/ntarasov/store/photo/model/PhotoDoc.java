@@ -15,7 +15,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class PhotoDoc {
     @Id
-        private ObjectId id;
-        private String  name;
-        private String contentType;
+    private ObjectId id;
+    private String name;
+    private String contentType;
+    private ObjectId productId;
+
 }

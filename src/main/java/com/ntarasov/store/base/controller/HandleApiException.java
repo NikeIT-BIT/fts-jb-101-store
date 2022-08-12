@@ -6,12 +6,20 @@ import com.ntarasov.store.auth.exceptions.NotAccessException;
 import com.ntarasov.store.base.api.response.ErrorResponse;
 import com.ntarasov.store.admin.exception.AdminExistException;
 import com.ntarasov.store.admin.exception.AdminNotExistException;
+import com.ntarasov.store.cart.exception.CartExistException;
+import com.ntarasov.store.cart.exception.CartNotExistException;
 import com.ntarasov.store.category.exception.CategoryExistException;
 import com.ntarasov.store.category.exception.CategoryNotExistException;
+import com.ntarasov.store.city.exception.CityExistException;
+import com.ntarasov.store.city.exception.CityNotExistException;
+import com.ntarasov.store.gues.exception.GuesExistException;
+import com.ntarasov.store.gues.exception.GuesNotExistException;
 import com.ntarasov.store.photo.exception.PhotoExistException;
 import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.product.exception.ProductExistException;
 import com.ntarasov.store.product.exception.ProductNotExistException;
+import com.ntarasov.store.street.exception.StreetExistException;
+import com.ntarasov.store.street.exception.StreetNotExistException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -93,6 +101,46 @@ public class HandleApiException extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ProductExistException.class)
     public ResponseEntity<Object> productExistException(ProductExistException ex, WebRequest webRequest) {
         return buildResponseEntity(ErrorResponse.of("ProductExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(CityNotExistException.class)
+    public ResponseEntity<Object> cityNotExistException(CityNotExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("CityNotExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(CityExistException.class)
+    public ResponseEntity<Object> cityExistException(CityExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("CityExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(StreetNotExistException.class)
+    public ResponseEntity<Object> streetNotExistException(StreetNotExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("StreetNotExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(StreetExistException.class)
+    public ResponseEntity<Object> streetExistException(StreetExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("StreetExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(CartNotExistException.class)
+    public ResponseEntity<Object> cartNotExistException(CartNotExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("CartNotExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(CartExistException.class)
+    public ResponseEntity<Object> cartExistException(CartExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("CartExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(GuesNotExistException.class)
+    public ResponseEntity<Object> guesNotExistException(GuesNotExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("GuesNotExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(GuesExistException.class)
+    public ResponseEntity<Object> guesExistException(GuesExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("GuesExistException", HttpStatus.BAD_REQUEST));
     }
 
 

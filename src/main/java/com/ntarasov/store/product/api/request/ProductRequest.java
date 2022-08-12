@@ -11,11 +11,9 @@ import org.bson.types.ObjectId;
 @ApiModel(value = "ProductRequest", description = "Model product request")
 
 public class ProductRequest {
-        private ObjectId id;
-        private ObjectId categoryId;
-        private ObjectId photoId;
-        private ObjectId cityId;
-        private String  name;
-        private String  description;
-        private NutritionFacts  nutritionFacts = new NutritionFacts();
+    private ObjectId id;
+    private ObjectId categoryId;
+    private String name;
+    private String description;
+    private NutritionFacts nutritionFacts = new NutritionFacts();
 }

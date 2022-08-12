@@ -4,6 +4,8 @@ import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.photo.api.request.PhotoRequest;
+import com.ntarasov.store.photo.api.request.PhotoSearchRequest;
+import com.ntarasov.store.photo.api.request.PhotoUpdateRequest;
 import com.ntarasov.store.photo.api.response.PhotoResponse;
 import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.photo.mapping.PhotoMapping;
@@ -34,7 +36,7 @@ public class PhotoApiController {
 
     public OkResponse<PhotoResponse> byId(
     @ApiParam(value = "Photo id") @PathVariable ObjectId id
-            ) throws ChangeSetPersister.NotFoundException {
+            ) throws ChangeSetPersister.NotFoundException, PhotoNotExistException {
             return OkResponse.of(PhotoMapping.getInstance().getResponse().convert(
             photoApiService.findById(id).orElseThrow(
             ChangeSetPersister.NotFoundException::new)
@@ -50,7 +52,7 @@ public class PhotoApiController {
    })
 
     public OkResponse<SearchResponse<PhotoResponse>> search(
-           @ModelAttribute SearchRequest request
+           @ModelAttribute PhotoSearchRequest request
            ){
         return OkResponse.of(PhotoMapping.getInstance().getSearch().convert(
                 photoApiService.search(request)
@@ -68,7 +70,7 @@ public class PhotoApiController {
 
     public OkResponse<PhotoResponse> photo(
             @ApiParam(value = "Photo id") @PathVariable String id,
-            @RequestBody PhotoRequest photoRequest
+            @RequestBody PhotoUpdateRequest photoRequest
    ) throws PhotoNotExistException {
         return OkResponse.of(PhotoMapping.getInstance().getResponse().convert(
                 photoApiService.update(photoRequest)
@@ -85,7 +87,7 @@ public class PhotoApiController {
 
     public OkResponse<String> delete(
             @ApiParam(value = "User id") @PathVariable ObjectId id
-   ){
+   ) throws PhotoNotExistException {
         photoApiService.delete(id);
         return OkResponse.of(HttpStatus.OK.toString());
    }

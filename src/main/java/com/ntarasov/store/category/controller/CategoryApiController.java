@@ -10,6 +10,7 @@ import com.ntarasov.store.category.exception.CategoryNotExistException;
 import com.ntarasov.store.category.mapping.CategoryMapping;
 import com.ntarasov.store.category.routers.CategoryApiRoutes;
 import com.ntarasov.store.category.service.CategoryApiService;
+import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -97,7 +98,7 @@ public class CategoryApiController {
 
     public OkResponse<String> delete(
             @ApiParam(value = "User id") @PathVariable ObjectId id
-   ){
+   ) throws PhotoNotExistException {
         categoryApiService.delete(id);
         return OkResponse.of(HttpStatus.OK.toString());
    }

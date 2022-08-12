@@ -28,7 +28,7 @@ public class AdminApiService {
     private final MongoTemplate mongoTemplate;
 
     //<---------------------------------ПОИСК ПО ID------------------------------------------------->
-    public Optional<AdminDoc> findById(ObjectId id) {
+    public Optional<AdminDoc> findById(ObjectId id) throws AdminNotExistException {
         return adminRepository.findById(id);
     }
 
@@ -68,13 +68,14 @@ public class AdminApiService {
         Optional<AdminDoc> adminDocOptional = adminRepository.findById(request.getId());
         if (adminDocOptional.isEmpty()) throw new AdminNotExistException();
         AdminDoc adminDoc = AdminMapping.getInstance().getRequest().convert(request);
+        adminDoc.setEmail(request.getEmail());
         adminDoc.setId(request.getId());
         adminRepository.save(adminDoc);
         return adminDoc;
     }
 
     //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id) {
+    public void delete(ObjectId id) throws AdminNotExistException {
         adminRepository.deleteById(id);
     }
 }

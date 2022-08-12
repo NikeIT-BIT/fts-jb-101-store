@@ -3,6 +3,7 @@ package com.ntarasov.store.street.mapping;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.base.mapping.BaseMapping;
 import com.ntarasov.store.street.api.request.StreetRequest;
+import com.ntarasov.store.street.api.request.StreetUpdateRequest;
 import com.ntarasov.store.street.api.response.StreetResponse;
 import com.ntarasov.store.street.model.StreetDoc;
 import lombok.Getter;
@@ -27,6 +28,23 @@ public class StreetMapping {
 
         @Override
         public StreetRequest unMapping(StreetDoc streetDoc) {
+            throw new RuntimeException("dont use this");
+        }
+    }
+
+    public static class RequestUpdateMapping extends BaseMapping<StreetUpdateRequest, StreetDoc> {
+
+        @Override
+        public StreetDoc convert(StreetUpdateRequest streetUpdateRequest) {
+            return StreetDoc.builder()
+                    .id(streetUpdateRequest.getId())
+                    .name(streetUpdateRequest.getName())
+                    .build();
+        }
+
+
+        @Override
+        public StreetUpdateRequest unMapping(StreetDoc streetDoc) {
             throw new RuntimeException("dont use this");
         }
     }
@@ -71,6 +89,7 @@ public class StreetMapping {
     private final RequestMapping request = new RequestMapping();
     private final ResponseMapping response = new ResponseMapping();
     private final SearchMapping search = new SearchMapping();
+    private final RequestUpdateMapping updateRequest = new RequestUpdateMapping();
 
 
     public static StreetMapping getInstance() {

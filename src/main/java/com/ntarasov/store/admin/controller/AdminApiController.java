@@ -35,7 +35,7 @@ public class AdminApiController {
 
     public OkResponse<AdminResponse> byId(
             @ApiParam(value = "Admin id") @PathVariable ObjectId id
-    ) throws ChangeSetPersister.NotFoundException {
+    ) throws ChangeSetPersister.NotFoundException, AdminNotExistException {
         return OkResponse.of(AdminMapping.getInstance().getResponse().convert(
                 adminApiService.findById(id).orElseThrow(
                         ChangeSetPersister.NotFoundException::new)
@@ -85,7 +85,7 @@ public class AdminApiController {
 
     public OkResponse<String> delete(
             @ApiParam(value = "User id") @PathVariable ObjectId id
-    ) {
+    ) throws AdminNotExistException {
         adminApiService.delete(id);
         return OkResponse.of(HttpStatus.OK.toString());
     }

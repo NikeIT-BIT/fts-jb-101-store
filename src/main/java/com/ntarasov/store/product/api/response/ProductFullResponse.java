@@ -11,6 +11,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @ApiModel(value = "ProductFullResponse", description = "Model productResponse")
 
-public class ProductFullResponse extends ProductResponse{
+public class ProductFullResponse extends ProductResponse {
     private NutritionFacts nutritionFacts;
 }

@@ -3,6 +3,7 @@ package com.ntarasov.store.cart.service;
 import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.cart.api.request.CartRequest;
+import com.ntarasov.store.cart.api.request.CartUpdateRequest;
 import com.ntarasov.store.cart.mapping.CartMapping;
 import com.ntarasov.store.cart.exception.CartExistException;
 import com.ntarasov.store.cart.exception.CartNotExistException;
@@ -47,10 +48,7 @@ public class CartApiService {
 
         if(request.getQuery()!= null && !Objects.equals(request.getQuery(), "")){
             criteria = criteria.orOperator(
-//                    TODO: Add criteria
-//                    Criteria.where("firstName").regex(request.getQuery(),"i"),
-//                    Criteria.where("lastName").regex(request.getQuery(),"i"),
-//                    Criteria.where("email").regex(request.getQuery(),"i")
+                    Criteria.where("price").regex(request.getQuery(),"i")
             );
         }
 
@@ -63,11 +61,13 @@ public class CartApiService {
     }
 
 //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
-    public CartDoc update(CartRequest request) throws CartNotExistException {
+    public CartDoc update(CartUpdateRequest request) throws CartNotExistException {
         Optional<CartDoc> cartDocOptional = cartRepository.findById(request.getId());
         if (cartDocOptional.isEmpty()) throw new CartNotExistException();
-        CartDoc cartDoc = CartMapping.getInstance().getRequest().convert(request);
+        CartDoc cartDoc = CartMapping.getInstance().getRequestUpdate().convert(request);
         cartDoc.setId(request.getId());
+        cartDoc.setProducts(request.getProducts());
+        cartDoc.setTotalCost(request.getTotalCost());
         cartRepository.save(cartDoc);
         return cartDoc;
     }

@@ -5,6 +5,8 @@ import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.city.exception.CityNotExistException;
 import com.ntarasov.store.street.api.request.StreetRequest;
+import com.ntarasov.store.street.api.request.StreetSearchRequest;
+import com.ntarasov.store.street.api.request.StreetUpdateRequest;
 import com.ntarasov.store.street.api.response.StreetResponse;
 import com.ntarasov.store.street.exception.StreetExistException;
 import com.ntarasov.store.street.exception.StreetNotExistException;
@@ -63,7 +65,7 @@ public class StreetApiController {
    })
 
     public OkResponse<SearchResponse<StreetResponse>> search(
-           @ModelAttribute SearchRequest request
+           @ModelAttribute StreetSearchRequest request
            ){
         return OkResponse.of(StreetMapping.getInstance().getSearch().convert(
                 streetApiService.search(request)
@@ -81,7 +83,7 @@ public class StreetApiController {
 
     public OkResponse<StreetResponse> street(
             @ApiParam(value = "Street id") @PathVariable String id,
-            @RequestBody StreetRequest streetRequest
+            @RequestBody StreetUpdateRequest streetRequest
    ) throws StreetNotExistException {
         return OkResponse.of(StreetMapping.getInstance().getResponse().convert(
                 streetApiService.update(streetRequest)
