@@ -3,6 +3,7 @@ package com.ntarasov.store.cart.mapping;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.base.mapping.BaseMapping;
 import com.ntarasov.store.cart.api.request.CartRequest;
+import com.ntarasov.store.cart.api.request.CartUpdateRequest;
 import com.ntarasov.store.cart.api.response.CartResponse;
 import com.ntarasov.store.cart.model.CartDoc;
 import lombok.Getter;
@@ -29,6 +30,24 @@ public class CartMapping {
 
         @Override
         public CartRequest unMapping(CartDoc cartDoc) {
+            throw new RuntimeException("dont use this");
+        }
+    }
+
+    public static class RequestUpdateMapping extends BaseMapping<CartUpdateRequest, CartDoc> {
+
+        @Override
+        public CartDoc convert(CartUpdateRequest cartRequest) {
+            return CartDoc.builder()
+                    .id(cartRequest.getId())
+                    .totalCost(cartRequest.getTotalCost())
+                    .products(cartRequest.getProducts())
+                    .build();
+        }
+
+
+        @Override
+        public CartUpdateRequest unMapping(CartDoc cartDoc) {
             throw new RuntimeException("dont use this");
         }
     }
@@ -80,6 +99,7 @@ public class CartMapping {
     private final RequestMapping request = new RequestMapping();
     private final ResponseMapping response = new ResponseMapping();
     private final SearchMapping search = new SearchMapping();
+    private final RequestUpdateMapping requestUpdate = new RequestUpdateMapping();
 
 
     public static CartMapping getInstance() {

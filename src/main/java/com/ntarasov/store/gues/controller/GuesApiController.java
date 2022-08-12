@@ -71,22 +71,22 @@ public class GuesApiController {
    }
 
 //<---------------------------------ИЗМЕНЕНИЕ ПО ID------------------------------------------------->
-   @PutMapping(GuesApiRoutes.BY_ID)
-   @ApiOperation(value = "Update gues", notes = "Gues this when you need update gues info")
-   @ApiResponses(value = {
-           @ApiResponse(code = 200, message = "Success"),
-           @ApiResponse(code = 400, message = "Gues ID invalid")
-   })
-
-    public OkResponse<GuesResponse> gues(
-            @ApiParam(value = "Gues id") @PathVariable String id,
-            @RequestBody GuesRequest guesRequest
-   ) throws GuesNotExistException {
-        return OkResponse.of(GuesMapping.getInstance().getResponse().convert(
-                guesApiService.update(guesRequest)
-        ));
-
-   }
+//   @PutMapping(GuesApiRoutes.BY_ID)
+//   @ApiOperation(value = "Update gues", notes = "Gues this when you need update gues info")
+//   @ApiResponses(value = {
+//           @ApiResponse(code = 200, message = "Success"),
+//           @ApiResponse(code = 400, message = "Gues ID invalid")
+//   })
+//
+//    public OkResponse<GuesResponse> gues(
+//            @ApiParam(value = "Gues id") @PathVariable String id,
+//            @RequestBody GuesRequest guesRequest
+//   ) throws GuesNotExistException {
+//        return OkResponse.of(GuesMapping.getInstance().getResponse().convert(
+//                guesApiService.update(guesRequest)
+//        ));
+//
+//   }
 
 //<---------------------------------УДАЛЕНИЕ ПО ID------------------------------------------------->
    @DeleteMapping(GuesApiRoutes.BY_ID)

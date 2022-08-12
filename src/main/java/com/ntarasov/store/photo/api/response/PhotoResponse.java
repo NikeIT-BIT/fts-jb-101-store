@@ -16,4 +16,5 @@ public class PhotoResponse {
         protected String id;
         protected String  name;
         protected String contentType;
+        protected String productId;
 }

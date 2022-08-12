@@ -52,10 +52,9 @@ public class GuesApiService {
 
         if (request.getQuery() != null && !Objects.equals(request.getQuery(), "")) {
             criteria = criteria.orOperator(
-//                    TODO: Add criteria
-//                    Criteria.where("firstName").regex(request.getQuery(),"i"),
-//                    Criteria.where("lastName").regex(request.getQuery(),"i"),
-//                    Criteria.where("email").regex(request.getQuery(),"i")
+                    Criteria.where("name").regex(request.getQuery(),"i"),
+                    Criteria.where("phone").regex(request.getQuery(),"i"),
+                    Criteria.where("address").regex(request.getQuery(),"i")
             );
         }
 
@@ -67,15 +66,15 @@ public class GuesApiService {
         return SearchResponse.of(guesDocs, count);
     }
 
-    //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
-    public GuesDoc update(GuesRequest request) throws GuesNotExistException {
-        Optional<GuesDoc> guesDocOptional = guesRepository.findById(request.getId());
-        if (guesDocOptional.isEmpty()) throw new GuesNotExistException();
-        GuesDoc guesDoc = GuesMapping.getInstance().getRequest().convert(request);
-        guesDoc.setId(request.getId());
-        guesRepository.save(guesDoc);
-        return guesDoc;
-    }
+//    //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
+//    public GuesDoc update(GuesRequest request) throws GuesNotExistException {
+//        Optional<GuesDoc> guesDocOptional = guesRepository.findById(request.getId());
+//        if (guesDocOptional.isEmpty()) throw new GuesNotExistException();
+//        GuesDoc guesDoc = GuesMapping.getInstance().getRequest().convert(request);
+//        guesDoc.setId(request.getId());
+//        guesRepository.save(guesDoc);
+//        return guesDoc;
+//    }
 
     //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
     public void delete(ObjectId id) {
