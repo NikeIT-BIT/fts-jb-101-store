@@ -75,9 +75,11 @@ public class StreetApiService {
     public StreetDoc update(StreetUpdateRequest request) throws StreetNotExistException {
         Optional<StreetDoc> streetDocOptional = streetRepository.findById(request.getId());
         if (streetDocOptional.isEmpty()) throw new StreetNotExistException();
+        StreetDoc oldDoc = streetDocOptional.get();
         StreetDoc streetDoc = StreetMapping.getInstance().getUpdateRequest().convert(request);
         streetDoc.setId(request.getId());
         streetDoc.setName(request.getName());
+        streetDoc.setCityId(oldDoc.getCityId());
         streetRepository.save(streetDoc);
         return streetDoc;
     }

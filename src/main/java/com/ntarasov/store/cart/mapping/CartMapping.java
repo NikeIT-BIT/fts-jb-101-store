@@ -34,6 +34,7 @@ public class CartMapping {
         }
     }
 
+
     public static class RequestUpdateMapping extends BaseMapping<CartUpdateRequest, CartDoc> {
 
         @Override
@@ -51,6 +52,8 @@ public class CartMapping {
             throw new RuntimeException("dont use this");
         }
     }
+
+
 
 
     public static class ResponseMapping extends BaseMapping<CartDoc, CartResponse> {

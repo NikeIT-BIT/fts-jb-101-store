@@ -11,6 +11,8 @@ import com.ntarasov.store.photo.exception.PhotoNotExistException;
 import com.ntarasov.store.photo.mapping.PhotoMapping;
 import com.ntarasov.store.photo.model.PhotoDoc;
 import com.ntarasov.store.photo.repository.PhotoRepository;
+import com.ntarasov.store.product.exception.ProductNotExistException;
+import com.ntarasov.store.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.crossstore.ChangeSetPersister;
@@ -39,6 +41,7 @@ public class PhotoApiService {
     private final MongoTemplate mongoTemplate;
     private final GridFsTemplate gridFsTemplate;
     private final GridFsOperations gridFsOperations;
+    private final ProductRepository productRepository;
 
     //<---------------------------------ПОИСК ПО ID------------------------------------------------->
     public Optional<PhotoDoc> findById(ObjectId id) {
@@ -46,7 +49,8 @@ public class PhotoApiService {
     }
 
     //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
-    public PhotoDoc create(MultipartFile file) throws IOException {
+    public PhotoDoc create(MultipartFile file, ObjectId productId) throws IOException, ProductNotExistException {
+        if(productRepository.findById(productId).isEmpty()) throw new ProductNotExistException();
 
         DBObject metaData = new BasicDBObject();
         metaData.put("type", file.getContentType());
@@ -61,6 +65,7 @@ public class PhotoApiService {
 
         PhotoDoc photoDoc = PhotoDoc.builder()
                 .id(id)
+                .productId(productId)
                 .name(file.getOriginalFilename())
                 .contentType(file.getContentType())
                 .build();
@@ -101,9 +106,13 @@ public class PhotoApiService {
         Optional<PhotoDoc> photoDocOptional = photoRepository.findById(request.getId());
         if (photoDocOptional.isEmpty()) throw new PhotoNotExistException();
 
+        PhotoDoc oldDoc = photoDocOptional.get();
+
         PhotoDoc photoDoc = PhotoMapping.getInstance().getUpdateRequest().convert(request);
         photoDoc.setId(request.getId());
         photoDoc.setName(request.getName());
+        photoDoc.setProductId(oldDoc.getProductId());
+        photoDoc.setContentType(oldDoc.getContentType());
         photoRepository.save(photoDoc);
         return photoDoc;
     }

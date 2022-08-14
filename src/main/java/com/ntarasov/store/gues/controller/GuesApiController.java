@@ -89,16 +89,16 @@ public class GuesApiController {
 //   }
 
 //<---------------------------------УДАЛЕНИЕ ПО ID------------------------------------------------->
-   @DeleteMapping(GuesApiRoutes.BY_ID)
-   @ApiOperation(value = "Delete gues", notes = "User this when you need delete gues")
-   @ApiResponses(value = {
-           @ApiResponse(code = 200, message = "Success")
-   })
-
-    public OkResponse<String> deleteUser(
-            @ApiParam(value = "User id") @PathVariable ObjectId id
-   ){
-        guesApiService.delete(id);
-        return OkResponse.of(HttpStatus.OK.toString());
-   }
-}
+//   @DeleteMapping(GuesApiRoutes.BY_ID)
+//   @ApiOperation(value = "Delete gues", notes = "User this when you need delete gues")
+//   @ApiResponses(value = {
+//           @ApiResponse(code = 200, message = "Success")
+//   })
+//
+//    public OkResponse<String> deleteUser(
+//            @ApiParam(value = "User id") @PathVariable ObjectId id
+//   ){
+//        guesApiService.delete(id);
+//        return OkResponse.of(HttpStatus.OK.toString());
+//   }
+  }

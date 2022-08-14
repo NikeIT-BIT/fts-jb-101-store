@@ -16,6 +16,8 @@ import com.ntarasov.store.gues.exception.GuesExistException;
 import com.ntarasov.store.gues.exception.GuesNotExistException;
 import com.ntarasov.store.photo.exception.PhotoExistException;
 import com.ntarasov.store.photo.exception.PhotoNotExistException;
+import com.ntarasov.store.price.exception.PriceExistException;
+import com.ntarasov.store.price.exception.PriceNotExistException;
 import com.ntarasov.store.product.exception.ProductExistException;
 import com.ntarasov.store.product.exception.ProductNotExistException;
 import com.ntarasov.store.street.exception.StreetExistException;
@@ -36,31 +38,7 @@ public class HandleApiException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorResponse, errorResponse.getHttpStatus());
     }
 
-    //    -------------------------------------Стандартные----------------------------------------------------
-    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
-    public ResponseEntity<Object> notFoundException(ChangeSetPersister.NotFoundException ex, WebRequest webRequest) {
-        return buildResponseEntity(ErrorResponse.of("NotFoundExeption", HttpStatus.NOT_FOUND));
-    }
 
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<Object> badRequest(AdminNotExistException ex, WebRequest webRequest) {
-        return buildResponseEntity(ErrorResponse.of("ResponseStatusException", HttpStatus.BAD_REQUEST));
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> exception(Exception ex, WebRequest webRequest) {
-        return buildResponseEntity(ErrorResponse.of("Exception", HttpStatus.INTERNAL_SERVER_ERROR));
-    }
-
-    @ExceptionHandler(AuthException.class)
-    public ResponseEntity<Object> authException(AuthException ex, WebRequest webRequest) {
-        return buildResponseEntity(ErrorResponse.of("AuthException", HttpStatus.UNAUTHORIZED));
-    }
-
-    @ExceptionHandler(NotAccessException.class)
-    public ResponseEntity<Object> notAccessException(NotAccessException ex, WebRequest webRequest) {
-        return buildResponseEntity(ErrorResponse.of("NotAccessException", HttpStatus.FORBIDDEN));
-    }
 
     //    -------------------------------------ПОЛЬЗОВАТЕЛЬСКИЕ----------------------------------------------------
     @ExceptionHandler(AdminNotExistException.class)
@@ -141,6 +119,42 @@ public class HandleApiException extends ResponseEntityExceptionHandler {
     @ExceptionHandler(GuesExistException.class)
     public ResponseEntity<Object> guesExistException(GuesExistException ex, WebRequest webRequest) {
         return buildResponseEntity(ErrorResponse.of("GuesExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(PriceNotExistException.class)
+    public ResponseEntity<Object> priceNotExistException(PriceNotExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("PriceNotExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(PriceExistException.class)
+    public ResponseEntity<Object> priceExistException(PriceExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("PriceExistException", HttpStatus.BAD_REQUEST));
+    }
+
+    //    -------------------------------------Стандартные----------------------------------------------------
+    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
+    public ResponseEntity<Object> notFoundException(ChangeSetPersister.NotFoundException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("NotFoundExeption", HttpStatus.NOT_FOUND));
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Object> badRequest(AdminNotExistException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("ResponseStatusException", HttpStatus.BAD_REQUEST));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> exception(Exception ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("Exception", HttpStatus.INTERNAL_SERVER_ERROR));
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> authException(AuthException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("AuthException", HttpStatus.UNAUTHORIZED));
+    }
+
+    @ExceptionHandler(NotAccessException.class)
+    public ResponseEntity<Object> notAccessException(NotAccessException ex, WebRequest webRequest) {
+        return buildResponseEntity(ErrorResponse.of("NotAccessException", HttpStatus.FORBIDDEN));
     }
 
 
