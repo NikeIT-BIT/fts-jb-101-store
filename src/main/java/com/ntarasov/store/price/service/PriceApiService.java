@@ -1,10 +1,8 @@
 package com.ntarasov.store.price.service;
 
-import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.city.exception.CityNotExistException;
 import com.ntarasov.store.city.repository.CityRepository;
-import com.ntarasov.store.photo.model.PhotoDoc;
 import com.ntarasov.store.price.api.request.PriceRequest;
 import com.ntarasov.store.price.api.request.PriceSearchRequest;
 import com.ntarasov.store.price.api.request.PriceUpdateRequest;
@@ -25,7 +23,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -45,7 +42,7 @@ public class PriceApiService {
 
 //<---------------------------------СОЗДАНАНИЕ------------------------------------------------->
     public PriceDoc create(PriceRequest request) throws PriceExistException, CityNotExistException, ProductNotExistException {
-        if (priceRepository.findByCityId(request.getCityId()).isPresent() && priceRepository.findByProductId(request.getProductId()).isPresent()) {
+        if (priceRepository.findByCityId(request.getCityId()).isPresent() && priceRepository.findByProductId(request.getProductId()).isPresent()) { // Есть какая то проблемка
             throw new PriceExistException();
         }
         if (cityRepository.findById(request.getCityId()).isEmpty()) throw new CityNotExistException();
@@ -65,8 +62,8 @@ public class PriceApiService {
             list.add(Criteria.where("productId").is(request.getProductId()));
         if(request.getCityId() != null)
             list.add(Criteria.where("cityId").is(request.getCityId()));
-        if(StringUtils.hasText(request.getQuery()))
-            list.add(Criteria.where("price").regex(request.getQuery(), "i"));
+//        if(StringUtils.hasText(request.getQuery()))
+//            list.add(Criteria.where("price").regex(request.getQuery(), "i"));
 
         Criteria criteria = list.isEmpty()?
                 new Criteria()
@@ -84,9 +81,14 @@ public class PriceApiService {
 //<---------------------------------ОБНОВЛЕНИЕ------------------------------------------------->
     public PriceDoc update(PriceUpdateRequest request) throws PriceNotExistException {
         Optional<PriceDoc> priceDocOptional = priceRepository.findById(request.getId());
+
+        PriceDoc oldDoc = priceDocOptional.get();
+
         if (priceDocOptional.isEmpty()) throw new PriceNotExistException();
         PriceDoc priceDoc = PriceMapping.getInstance().getRequestUpdate().convert(request);
         priceDoc.setId(request.getId());
+        priceDoc.setProductId(oldDoc.getProductId());
+        priceDoc.setCityId(oldDoc.getCityId());
         priceDoc.setPrice(request.getPrice());
         priceRepository.save(priceDoc);
         return priceDoc;

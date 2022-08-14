@@ -7,6 +7,7 @@ import com.ntarasov.store.photo.mapping.PhotoMapping;
 import com.ntarasov.store.photo.model.PhotoDoc;
 import com.ntarasov.store.photo.routers.PhotoApiRoutes;
 import com.ntarasov.store.photo.service.PhotoApiService;
+import com.ntarasov.store.product.exception.ProductNotExistException;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -49,8 +50,9 @@ public class PhotoController {
     })
 
     public @ResponseBody OkResponse<PhotoResponse> create(
-            @RequestParam MultipartFile file
-    ) throws IOException {
-        return OkResponse.of(PhotoMapping.getInstance().getResponse().convert(photoApiService.create(file)));
+            @RequestParam MultipartFile file,
+            @RequestParam ObjectId productId
+    ) throws IOException, ProductNotExistException {
+        return OkResponse.of(PhotoMapping.getInstance().getResponse().convert(photoApiService.create(file, productId)));
     }
 }

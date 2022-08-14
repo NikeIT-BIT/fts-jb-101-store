@@ -17,6 +17,7 @@ public class GuesRequest {
         private String  phone;
         private String  time;
         private ObjectId cartId;
+        private ObjectId streetId;
         private Address address = new Address();
         private PaymentMethod paymentMethod;
 }

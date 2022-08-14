@@ -95,10 +95,12 @@ public class ProductApiService {
         List <PhotoDoc> photoDocs = photoApiService.search(PhotoSearchRequest.builder()
                 .productId(id)
                 .size(1)
+                .skip(0l)
                 .build()).getList();
         List <PriceDoc> priceDocs = priceApiService.search(PriceSearchRequest.builder()
                 .productId(id)
                 .size(100)
+                .skip(0l)
                 .build()).getList();
 
         for(PhotoDoc photoDoc : photoDocs) photoApiService.delete(photoDoc.getId());

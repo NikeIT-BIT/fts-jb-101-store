@@ -94,10 +94,12 @@ public class CityApiService {
         List <PriceDoc> priceDocs = priceApiService.search(PriceSearchRequest.builder()
                 .cityId(id)
                 .size(100)
+                .skip(0l)
                 .build()).getList();
         List <StreetDoc> streetDocs = streetApiService.search(StreetSearchRequest.builder()
                 .cityId(id)
                 .size(10000)
+                .skip(0l)
                 .build()).getList();
         for(PriceDoc priceDoc : priceDocs) priceApiService.delete(priceDoc.getId());
         for(StreetDoc streetDoc : streetDocs) streetApiService.delete(streetDoc.getId());
