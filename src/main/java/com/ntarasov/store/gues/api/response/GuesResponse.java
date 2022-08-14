@@ -20,6 +20,7 @@ public class GuesResponse {
         protected String  phone;
         protected String  time;
         protected String cartId;
+        protected String streetId;
         protected Address address;
         protected PaymentMethod paymentMethod;
 }

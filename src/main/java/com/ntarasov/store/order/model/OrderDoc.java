@@ -1,13 +1,9 @@
-package com.ntarasov.store.cart.model;
+package com.ntarasov.store.order.model;
 
 import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Document
 @Getter
@@ -17,10 +13,10 @@ import java.util.Map;
 @NoArgsConstructor
 @Builder
 
-public class CartDoc {
+public class OrderDoc {
     @Id
     private ObjectId id;
-    private ObjectId cityId;
-    private Float totalCost;
-    private Map<ObjectId, Integer> products = new HashMap<>();
+    private ObjectId guesId;
+    private String numberOrder;
+    private Status status;
 }

@@ -23,6 +23,7 @@ public class GuesMapping {
                     .phone(guesRequest.getPhone())
                     .time(guesRequest.getTime())
                     .cartId(guesRequest.getCartId())
+                    .streetId(guesRequest.getStreetId())
                     .address(guesRequest.getAddress())
                     .paymentMethod(guesRequest.getPaymentMethod())
                     .build();
@@ -46,6 +47,7 @@ public class GuesMapping {
                     .phone(guesDoc.getPhone())
                     .time(guesDoc.getTime())
                     .cartId(guesDoc.getCartId().toString())
+                    .streetId(guesDoc.getStreetId().toString())
                     .address(guesDoc.getAddress())
                     .paymentMethod(guesDoc.getPaymentMethod())
                     .build();

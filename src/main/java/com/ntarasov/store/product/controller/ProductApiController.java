@@ -55,7 +55,7 @@ public class ProductApiController {
     })
 
     public OkResponse<ProductResponse> create(@RequestBody ProductRequest request) throws ProductExistException, PhotoExistException {
-        return OkResponse.of(ProductMapping.getInstance().getResponse().convert(productApiService.create(request)));
+        return OkResponse.of(ProductMapping.getInstance().getFullResponse().convert(productApiService.create(request)));
     }
 
     //<---------------------------------СПИСОК БАЗЫ ДАННЫХ------------------------------------------------->

@@ -83,6 +83,7 @@ public class CategoryApiService {
         List<ProductDoc> productDocs = productApiService.search(ProductSearchRequest.builder()
                 .categoryId(id)
                 .size(1000)
+                .skip(0l)
                 .build()).getList();
 
         for(ProductDoc productDoc : productDocs) productApiService.delete(productDoc.getId());

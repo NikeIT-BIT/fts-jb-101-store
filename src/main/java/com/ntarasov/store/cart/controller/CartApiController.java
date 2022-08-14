@@ -4,6 +4,7 @@ import com.ntarasov.store.base.api.request.SearchRequest;
 import com.ntarasov.store.base.api.response.OkResponse;
 import com.ntarasov.store.base.api.response.SearchResponse;
 import com.ntarasov.store.cart.api.request.CartRequest;
+import com.ntarasov.store.cart.api.request.CartSearchRequest;
 import com.ntarasov.store.cart.api.request.CartUpdateRequest;
 import com.ntarasov.store.cart.api.response.CartResponse;
 import com.ntarasov.store.cart.exception.CartExistException;
@@ -63,7 +64,7 @@ public class CartApiController {
    })
 
     public OkResponse<SearchResponse<CartResponse>> search(
-           @ModelAttribute SearchRequest request
+           @ModelAttribute CartSearchRequest request
            ){
         return OkResponse.of(CartMapping.getInstance().getSearch().convert(
                 cartApiService.search(request)

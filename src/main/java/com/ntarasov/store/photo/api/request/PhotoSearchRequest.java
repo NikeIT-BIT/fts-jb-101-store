@@ -5,9 +5,11 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.bson.types.ObjectId;
 
-@SuperBuilder
-@Setter
 @Getter
+@Setter
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class PhotoSearchRequest extends SearchRequest {
     private ObjectId productId;

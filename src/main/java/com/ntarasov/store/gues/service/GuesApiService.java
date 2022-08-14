@@ -75,10 +75,10 @@ public class GuesApiService {
 //        guesRepository.save(guesDoc);
 //        return guesDoc;
 //    }
-
-    //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
-    public void delete(ObjectId id) {
-
-        guesRepository.deleteById(id);
-    }
+//
+//    //<---------------------------------УДАЛЕНИЕ------------------------------------------------->
+//    public void delete(ObjectId id) {
+//
+//        guesRepository.deleteById(id);
+//    }
 }
